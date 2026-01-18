@@ -4,12 +4,15 @@
 #include <BLEUtils.h>
 
 #include "ble.h"
+#include "io.h"
 #include "game_state.h"
 
 #define DISPLAY_SERVICE_UUID "bae5e4dd-f2b4-4461-a84c-b7851fb8efd3"
 #define GAME_STATE_CHARACTERISTIC_UUID "bab40271-33ea-48dc-a145-638361f54d2b"
+#define BATTERY_SERVICE_UUID "bab40271-33ea-48dc-a145-638361f54d2c"
 
 static BLECharacteristic *pCharacteristic;
+static BLECharacteristic *battery_characteristic;
 bool deviceConnected = false;
 
 class ServerCallbacks : public BLEServerCallbacks {
@@ -51,6 +54,12 @@ void init_ble(void)
 		BLECharacteristic::PROPERTY_WRITE);
 
 	pCharacteristic->setCallbacks(new Callbacks());
+
+	battery_characteristic = pService->createCharacteristic(
+		BATTERY_SERVICE_UUID,
+		BLECharacteristic::PROPERTY_READ);
+	battery_characteristic->setCallbacks(new Callbacks());
+
 	pService->start();
 
 	BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
@@ -62,4 +71,9 @@ void init_ble(void)
 void deinit_ble(void)
 {
 	BLEDevice::deinit(true);
+}
+
+void update_ble_characteristics(void)
+{
+	battery_characteristic->setValue(get_battery_voltage());
 }
