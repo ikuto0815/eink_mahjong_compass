@@ -22,8 +22,8 @@ void game_state_parse(char *str)
 		next[0] = '\0';
 
 		if (item == 0) {
-			sscanf(str, "%" SCNu8 " %" SCNu8 " %" SCNu8, &game_state.round,
-			       &game_state.riichi_count, &game_state.honba_count);
+			sscanf(str, "%" SCNu8 " %" SCNu8 " %" SCNu8, &game_state.round, &game_state.riichi_count,
+			       &game_state.honba_count);
 			item++;
 			type = 0;
 		} else {
@@ -59,9 +59,7 @@ void game_state_parse(char *str)
 
 void dump_game_state(void)
 {
-	Serial.printf("Round %d honba %d riichi %d\n",
-		      game_state.round,
-		      game_state.honba_count,
+	Serial.printf("Round %d honba %d riichi %d\n", game_state.round, game_state.honba_count,
 		      game_state.riichi_count);
 	Serial.println("Players:");
 
@@ -69,7 +67,6 @@ void dump_game_state(void)
 		Player *p = &game_state.players[i];
 		Serial.printf("Wind %c % 7d %s\n", "ESWN"[p->wind], p->score, p->name);
 	}
-
 }
 
 void set_active_player(int p)

@@ -12,7 +12,7 @@ void setup()
 	init_io();
 
 	set_leds(1);
-	
+
 	init_ble();
 
 	init_display();
@@ -23,7 +23,7 @@ void setup()
 void loop()
 {
 	static int i = 0;
-	
+
 	/* update battery voltage characteristic every 10s */
 	if (!i)
 		update_ble_characteristics();
@@ -45,7 +45,7 @@ void loop()
 			deinit_ble();
 			Serial.flush();
 			Serial.end();
-			
+
 			enable_touch_wakeup_pin();
 			esp_deep_sleep_start();
 		}

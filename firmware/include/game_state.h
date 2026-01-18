@@ -4,10 +4,10 @@
 #include <inttypes.h>
 
 typedef enum {
-EAST = 0,
-SOUTH = 1,
-WEST = 2,
-NORTH = 3,
+	EAST = 0,
+	SOUTH = 1,
+	WEST = 2,
+	NORTH = 3,
 } Wind;
 
 typedef struct {

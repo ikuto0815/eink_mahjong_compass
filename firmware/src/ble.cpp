@@ -49,15 +49,12 @@ void init_ble(void)
 	pServer->setCallbacks(new ServerCallbacks());
 	BLEService *pService = pServer->createService(DISPLAY_SERVICE_UUID);
 
-	pCharacteristic = pService->createCharacteristic(
-		GAME_STATE_CHARACTERISTIC_UUID,
-		BLECharacteristic::PROPERTY_WRITE);
+	pCharacteristic =
+		pService->createCharacteristic(GAME_STATE_CHARACTERISTIC_UUID, BLECharacteristic::PROPERTY_WRITE);
 
 	pCharacteristic->setCallbacks(new Callbacks());
 
-	battery_characteristic = pService->createCharacteristic(
-		BATTERY_SERVICE_UUID,
-		BLECharacteristic::PROPERTY_READ);
+	battery_characteristic = pService->createCharacteristic(BATTERY_SERVICE_UUID, BLECharacteristic::PROPERTY_READ);
 	battery_characteristic->setCallbacks(new Callbacks());
 
 	pService->start();

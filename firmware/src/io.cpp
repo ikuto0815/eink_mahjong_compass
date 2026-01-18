@@ -4,9 +4,9 @@
 #include "io.h"
 #include "game_state.h"
 
-static const int touchPins[] = {7, 6, 5, 4};
-static const int ledPins[] = {38, 37, 36, 35};
-static const int buttonPins[] = {42, 41, 40, 39};
+static const int touchPins[] = { 7, 6, 5, 4 };
+static const int ledPins[] = { 38, 37, 36, 35 };
+static const int buttonPins[] = { 42, 41, 40, 39 };
 
 #define WAKEUP_GPIO GPIO_NUM_3
 
@@ -32,7 +32,8 @@ static void got_touch(void *arg)
 	set_active_player(i, state);
 }
 
-static void button_isr(void *arg) {
+static void button_isr(void *arg)
+{
 	int i = (int)arg;
 	int state = !digitalRead(buttonPins[i]);
 
@@ -57,7 +58,7 @@ void set_leds(int state)
  */
 uint32_t get_battery_voltage(void)
 {
-	return analogReadMilliVolts(BATTERY_V_PIN)*(330+1000)/330;
+	return analogReadMilliVolts(BATTERY_V_PIN) * (330 + 1000) / 330;
 }
 
 void init_io(void)
@@ -68,11 +69,11 @@ void init_io(void)
 
 	for (int i = 0; i < 4; i++) {
 		pinMode(buttonPins[i], INPUT_PULLUP);
-		touchAttachInterruptArg(touchPins[i],  got_touch, (void*)i, 0);
+		touchAttachInterruptArg(touchPins[i], got_touch, (void *)i, 0);
 
 		pinMode(ledPins[i], OUTPUT);
 		digitalWrite(ledPins[i], 0);
-		attachInterruptArg(buttonPins[i], button_isr, (void*)i, CHANGE);
+		attachInterruptArg(buttonPins[i], button_isr, (void *)i, CHANGE);
 	}
 
 	pinMode(BATTERY_V_PIN, INPUT);

@@ -7,5 +7,4 @@ void update_game_screen(bool full_update = false);
 void show_connect_screen(void);
 void show_standby_screen(void);
 
-
 #endif // DISPLAY_H_
