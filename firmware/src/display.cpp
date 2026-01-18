@@ -168,6 +168,7 @@ void update_game_screen(bool full_update) {
 	}
 
 	clear_screen();
+	display.setRotation(3);
 
 	sprintf(buf, "%c%d", winds[(game_state.round - 1 ) / 4], 1 + ((game_state.round - 1) % 4));
 	display_print(&MPLUS2_Regular24pt7b, buf, CENTER, MIDDLE, 0, 0);
