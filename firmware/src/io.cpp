@@ -7,6 +7,8 @@ static const int touchPins[] = {7, 6, 5, 4};
 static const int ledPins[] = {38, 37, 36, 35};
 static const int buttonPins[] = {42, 41, 40, 39};
 
+#define BATTERY_V_PIN 14
+
 static void got_touch(void *arg)
 {
 	int i = (int)arg;
@@ -39,6 +41,15 @@ void set_leds(int state)
 		digitalWrite(ledPins[i], state);
 }
 
+/*
+ * read the analog pin and convert the value back to the actual battery voltage.
+ * (Voltage divider with 330k and 1000k resistors used)
+ */
+uint32_t get_battery_voltage(void)
+{
+	return analogReadMilliVolts(BATTERY_V_PIN)*(330+1000)/330;
+}
+
 void init_io(void)
 {
 	int touch_threshold = 40;
@@ -53,4 +64,9 @@ void init_io(void)
 		digitalWrite(ledPins[i], 0);
 		attachInterruptArg(buttonPins[i], button_isr, (void*)i, RISING);
 	}
+
+	pinMode(BATTERY_V_PIN, INPUT);
+
+	// limit the voltage range. 4.5V battery voltage would be 1.12V on BATTERY_V_PIN
+	analogSetAttenuation(ADC_6db);
 }
