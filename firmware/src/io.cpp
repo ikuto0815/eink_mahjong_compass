@@ -9,12 +9,8 @@ static const int buttonPins[] = {42, 41, 40, 39};
 
 #define BATTERY_V_PIN 14
 
-static void got_touch(void *arg)
+static void set_active_player(int i, int state)
 {
-	int i = (int)arg;
-	int state = touchInterruptGetLastStatus(touchPins[i]);
-
-	Serial.printf("touch %d state %d\n", i, state);
 	if (state) {
 		digitalWrite(ledPins[i], 1);
 		game_state.active = i;
@@ -24,10 +20,21 @@ static void got_touch(void *arg)
 	}
 }
 
+static void got_touch(void *arg)
+{
+	int i = (int)arg;
+	int state = touchInterruptGetLastStatus(touchPins[i]);
+
+	Serial.printf("touch %d state %d\n", i, state);
+	set_active_player(i, state);
+}
+
 static void button_isr(void *arg) {
 	int i = (int)arg;
+	int state = !digitalRead(buttonPins[i]);
 
-	Serial.printf("button %d\n", i);
+	Serial.printf("button %d state %d\n", i, state);
+	set_active_player(i, state);
 }
 
 void set_led(int led, int state)
@@ -62,7 +69,7 @@ void init_io(void)
 
 		pinMode(ledPins[i], OUTPUT);
 		digitalWrite(ledPins[i], 0);
-		attachInterruptArg(buttonPins[i], button_isr, (void*)i, RISING);
+		attachInterruptArg(buttonPins[i], button_isr, (void*)i, CHANGE);
 	}
 
 	pinMode(BATTERY_V_PIN, INPUT);
