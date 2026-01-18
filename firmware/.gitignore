@@ -1,2 +1,5 @@
 .pio
 .ccls-cache
+managed_components
+sdkconfig.*
+.dummy
