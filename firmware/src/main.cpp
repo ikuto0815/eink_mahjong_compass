@@ -27,7 +27,11 @@ void loop()
 		delay(100);
 	} else {
 		show_connect_screen();
-		delay(60000);
+		for (int j = 0; j < 600; j++) {
+			delay(100);
+			if (deviceConnected)
+				break;
+		}
 
 		if (!deviceConnected) {
 			show_standby_screen();
