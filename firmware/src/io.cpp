@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include "driver/rtc_io.h"
 
 #include "io.h"
 #include "game_state.h"
@@ -6,6 +7,8 @@
 static const int touchPins[] = {7, 6, 5, 4};
 static const int ledPins[] = {38, 37, 36, 35};
 static const int buttonPins[] = {42, 41, 40, 39};
+
+#define WAKEUP_GPIO GPIO_NUM_3
 
 #define BATTERY_V_PIN 14
 
@@ -84,6 +87,10 @@ void init_io(void)
  */
 void enable_touch_wakeup_pin(void)
 {
+	esp_sleep_enable_ext0_wakeup(WAKEUP_GPIO, 0);
+	rtc_gpio_pulldown_dis(WAKEUP_GPIO);
+	rtc_gpio_pullup_en(WAKEUP_GPIO);
+
 	for (int i = 0; i < 4; i++)
 		touchDetachInterrupt(touchPins[i]);
 	touchSleepWakeUpEnable(touchPins[3], 40);
