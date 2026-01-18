@@ -113,8 +113,9 @@ void show_standby_screen(void) {
 	display.fillRect(0, 0, display.width(), display.height(), GxEPD_WHITE);
 	display.setRotation(0);
 	display.setTextColor(GxEPD_BLACK);
-	display_print(&MPLUS2_Regular9pt7b, "Standby mode", CENTER, MIDDLE, 0, 20);
-	display_print(&MPLUS2_Regular9pt7b, "touch corners to wakeup", CENTER, MIDDLE, 0, 35);
+	display_print(&MPLUS2_Medium12pt7b, "Standby mode", CENTER, MIDDLE, 0, 20);
+	display_print(&MPLUS2_Medium12pt7b, "touch bottom right", CENTER, MIDDLE, 0, 60);
+	display_print(&MPLUS2_Medium12pt7b, "corner to wakeup", CENTER, MIDDLE, 0, 90);
 	display.nextPage();
 
 	display.hibernate();
