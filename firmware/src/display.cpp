@@ -44,6 +44,10 @@ void init_display(void)
 {
 	Serial.printf("CS %d res %d DC %d\n", CS_PIN, RES_PIN, DC_PIN);
 
+	pinMode(CS_PIN, OUTPUT);
+	pinMode(DC_PIN, OUTPUT);
+	pinMode(RES_PIN, OUTPUT);
+
 	hspi.begin(SCK_PIN, MISO_PIN, MOSI_PIN, CS_PIN); 
 	display.epd2.selectSPI(hspi, SPISettings(4000000, MSBFIRST, SPI_MODE0));
 
