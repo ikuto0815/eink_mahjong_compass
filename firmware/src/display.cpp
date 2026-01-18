@@ -147,7 +147,6 @@ void show_connect_screen(void) {
 		clear_screen();
 		print_qr_code(qrcode);
 		display_print(&MPLUS2_Medium12pt7b, "Scan to connect", CENTER, BOTTOM, 0, 20);
-		display.refresh(0);
 		display.nextPage();
 		display.hibernate();
 	}
