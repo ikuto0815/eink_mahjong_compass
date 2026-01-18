@@ -22,6 +22,13 @@ void setup()
 
 void loop()
 {
+	static int i = 0;
+	
+	/* update battery voltage characteristic every 10s */
+	if (!i)
+		update_ble_characteristics();
+	i = (++i) % 100;
+
 	if (deviceConnected) {
 		update_game_screen();
 		delay(100);
