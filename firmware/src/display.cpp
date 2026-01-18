@@ -137,7 +137,7 @@ static void print_qr_code(const uint8_t qrcode[]) {
 void show_connect_screen(void) {
 	static uint8_t qrcode[qrcodegen_BUFFER_LEN_MAX] PROGMEM;
 	static uint8_t tempBuffer[qrcodegen_BUFFER_LEN_MAX];
-	const char *text = BLEDevice::getAddress().toString().c_str();
+	const char *text = ("https://compass.9001.ovh/#" + BLEDevice::getAddress().toString()).c_str();
 	enum qrcodegen_Ecc errCorLvl = qrcodegen_Ecc_LOW;  // Error correction level
 
 	// Make and print the QR Code symbol
