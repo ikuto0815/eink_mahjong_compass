@@ -46,6 +46,7 @@ void loop()
 			Serial.flush();
 			Serial.end();
 			
+			enable_touch_wakeup_pin();
 			esp_deep_sleep_start();
 		}
 	}

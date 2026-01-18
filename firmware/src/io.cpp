@@ -70,3 +70,14 @@ void init_io(void)
 	// limit the voltage range. 4.5V battery voltage would be 1.12V on BATTERY_V_PIN
 	analogSetAttenuation(ADC_6db);
 }
+
+/* set pin for bottom right corner to sleep wakeup
+ * esp32-s3 seems to only support one touch wakeup pin sadly
+ * having the interrupt still attached makes the wakeup not work sometimes
+ */
+void enable_touch_wakeup_pin(void)
+{
+	for (int i = 0; i < 4; i++)
+		touchDetachInterrupt(touchPins[i]);
+	touchSleepWakeUpEnable(touchPins[3], 40);
+}
