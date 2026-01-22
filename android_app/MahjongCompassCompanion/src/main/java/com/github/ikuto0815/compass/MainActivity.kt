@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat
 import com.github.ikuto0815.compass.databinding.ActivityMainBinding
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import com.github.ikuto0815.compass.helper.Settings
 
 class MainActivity : AppCompatActivity() {
@@ -83,6 +84,17 @@ class MainActivity : AppCompatActivity() {
 
         Settings.preferences = this.getPreferences(MODE_PRIVATE)
 
+        // handle https app links
+        val appLinkIntent: Intent = intent
+        val appLinkAction: String? = appLinkIntent.action
+        val appLinkData: Uri? = appLinkIntent.data
+
+        if (appLinkAction == "android.intent.action.VIEW" && appLinkData != null && appLinkData.fragment != null) {
+            Log.d("SCAN", "action $appLinkAction data ${appLinkData.fragment}")
+            Settings.setValue("address", appLinkData.fragment!!)
+
+        }
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -101,10 +113,6 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        // handle https app links
-        val appLinkIntent: Intent = intent
-        val appLinkAction: String? = appLinkIntent.action
-        val appLinkData: Uri? = appLinkIntent.data
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
