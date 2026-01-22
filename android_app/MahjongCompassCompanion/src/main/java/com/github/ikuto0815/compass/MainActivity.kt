@@ -17,6 +17,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.github.ikuto0815.compass.databinding.ActivityMainBinding
+import android.content.Intent
+import android.net.Uri
 
 class MainActivity : AppCompatActivity() {
 
@@ -95,6 +97,11 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        // handle https app links
+        val appLinkIntent: Intent = intent
+        val appLinkAction: String? = appLinkIntent.action
+        val appLinkData: Uri? = appLinkIntent.data
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
