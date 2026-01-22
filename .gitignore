@@ -1,0 +1,9 @@
+.dummy/
+.pio/
+.cache/
+managed_components/
+
+compile_commands.json
+
+fp-info-cache
+*.FCBak
