@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Mahjong Compass Companion</string>
+    <string name="nav_header_desc">Navigation header</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_settings">Settings</string>
+</resources>
