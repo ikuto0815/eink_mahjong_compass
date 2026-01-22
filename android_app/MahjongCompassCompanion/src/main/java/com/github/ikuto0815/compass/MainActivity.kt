@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat
 import com.github.ikuto0815.compass.databinding.ActivityMainBinding
 import android.content.Intent
 import android.net.Uri
+import com.github.ikuto0815.compass.helper.Settings
 
 class MainActivity : AppCompatActivity() {
 
@@ -79,6 +80,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         requestPermissions()
+
+        Settings.preferences = this.getPreferences(MODE_PRIVATE)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
