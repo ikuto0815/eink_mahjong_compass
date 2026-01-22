@@ -1,5 +1,6 @@
 package com.github.ikuto0815.compass.ui.home
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,9 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.github.ikuto0815.compass.databinding.FragmentHomeBinding
+import com.github.ikuto0815.compass.helper.Settings
+import com.github.ikuto0815.compass.helper.defaults
+import com.github.ikuto0815.compass.helper.injectCallback
 
 class HomeFragment : Fragment() {
 
@@ -22,16 +26,18 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        val web = binding.web
+        val address = Settings.getValue("address")
+        val url = Settings.getValue("url", "https://riichi.berlin-mahjong.club")
+
+        url?.apply {
+            web.defaults(url)
+            web.injectCallback()
         }
+
         return root
     }
 
