@@ -111,11 +111,11 @@ void show_standby_screen(void)
 {
 	clear_screen();
 	display.fillRect(0, 0, display.width(), display.height(), GxEPD_WHITE);
-	display.setRotation(0);
+	display.setRotation(3);
 	display.setTextColor(GxEPD_BLACK);
 	display_print(&MPLUS2_Medium12pt7b, "Standby mode", CENTER, MIDDLE, 0, 20);
-	display_print(&MPLUS2_Medium12pt7b, "touch bottom right", CENTER, MIDDLE, 0, 60);
-	display_print(&MPLUS2_Medium12pt7b, "corner to wakeup", CENTER, MIDDLE, 0, 90);
+	display_print(&MPLUS2_Medium12pt7b, "press bottom right", CENTER, MIDDLE, 0, 60);
+	display_print(&MPLUS2_Medium12pt7b, "button to wakeup", CENTER, MIDDLE, 0, 90);
 	display.nextPage();
 
 	display.hibernate();
@@ -148,6 +148,7 @@ void show_connect_screen(void)
 				       qrcodegen_VERSION_MAX, qrcodegen_Mask_AUTO, true);
 	if (ok) {
 		clear_screen();
+		display.setRotation(3);
 		print_qr_code(qrcode);
 		display_print(&MPLUS2_Medium12pt7b, "Scan to connect", CENTER, BOTTOM, 0, 20);
 		display.nextPage();
