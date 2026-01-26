@@ -31,16 +31,25 @@ fun WebView.defaults(url: String) {
 }
 
 fun WebView.injectCallback() {
-    val handler: Handler = Handler()
-    val web = this
+    val handler = Handler()
 
-    handler.postDelayed(object : Runnable {
-        override fun run() {
-            // document.querySelector("#tyr-root")[Object.keys(document.querySelector("#tyr-root")).findLast((s) => s.startsWith("__reactContainer"))]["memoizedState"]["element"]["props"]["state"]
-            web.loadUrl("javascript:(function f() { Android.copyData('', JSON.stringify(document.querySelector(\"#tyr-root\")[Object.keys(document.querySelector(\"#tyr-root\")).findLast((s) => s.startsWith(\"__reactContainer\"))][\"memoizedState\"][\"element\"][\"props\"][\"state\"])); } )()")
-            handler.postDelayed(this, 2000)
-        }
-
+    handler.postDelayed({
+        loadUrl("""
+            javascript:(function f() {
+            const targetNode = document.querySelector("#tyr-root");
+            const config = { attributes: true, childList: true, subtree: true };
+            
+            const callback = (mutationList, observer) => {
+            var data = targetNode[Object.keys(targetNode).findLast((s) => s.startsWith("__reactContainer"))]["memoizedState"]["element"]["props"]["state"];
+            delete data["_edges"]; delete data["yakuList"];
+            
+            data = JSON.stringify(data);
+            Android.copyData(data); 
+            };
+            const observer = new MutationObserver(callback);
+            observer.observe(targetNode, config);
+            })()
+        """.trimIndent())
     }, 2000)
 }
 
@@ -51,7 +60,7 @@ object AndroidJSInterface {
     @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
     @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
     @JavascriptInterface
-    fun copyData(id: String, s: String) {
+    fun copyData(s: String) {
         if (s == "null") return
 
         val o = JSONObject(s)
