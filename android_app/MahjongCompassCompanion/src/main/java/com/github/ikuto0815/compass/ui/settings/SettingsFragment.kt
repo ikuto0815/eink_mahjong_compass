@@ -1,13 +1,17 @@
 package com.github.ikuto0815.compass.ui.settings
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.github.ikuto0815.compass.databinding.FragmentSettingsBinding
+import com.github.ikuto0815.compass.helper.Bluetooth
+import com.github.ikuto0815.compass.helper.Settings
 
 class SettingsFragment : Fragment() {
 
@@ -17,6 +21,7 @@ class SettingsFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    @SuppressLint("MissingPermission")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -28,10 +33,17 @@ class SettingsFragment : Fragment() {
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textSettings
-        settingsViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+        val compassAddressTV: TextView = binding.editCompassAddress
+        compassAddressTV.text = Settings.getValue("address")
+
+        val statusObserver = Observer<String> { status -> binding.textStatus.text = status }
+        val connectButtonObserver = Observer<Boolean> { status -> binding.disconnectButton.isEnabled = status }
+
+        settingsViewModel.statusText.observe(viewLifecycleOwner, statusObserver)
+        settingsViewModel.disconnectButton.observe(viewLifecycleOwner, connectButtonObserver)
+
+        binding.disconnectButton.setOnClickListener { _ -> Bluetooth.disconnect() }
+
         return root
     }
 

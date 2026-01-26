@@ -23,18 +23,20 @@ object Bluetooth {
     var gameStateCharacteristic : BluetoothGattCharacteristic? = null
     var busy = false
     var bluetoothGatt : BluetoothGatt? = null
+
+    var stateChangeCB : ((Int) -> Unit)? = null
     private val bluetoothGattCallback = object : BluetoothGattCallback() {
         @SuppressLint("MissingPermission")
         override fun onConnectionStateChange(gatt: BluetoothGatt?, status: Int, newState: Int) {
             if (newState == BluetoothProfile.STATE_CONNECTED) {
-                Log.w("BT", "STATE_CONNECTED.")
                 Bluetooth.gatt = gatt
                 gatt?.discoverServices()
+                stateChangeCB?.invoke(newState)
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-                Log.w("BT", "STATE_DISCONNECTED.")
                 Bluetooth.gatt = null
                 gameStateCharacteristic = null
                 device = null
+                stateChangeCB?.invoke(newState)
             }
         }
 
