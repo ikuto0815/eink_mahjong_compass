@@ -9,10 +9,10 @@ import com.github.ikuto0815.compass.helper.Bluetooth
 class SettingsViewModel : ViewModel() {
 
     private val _statusText = MutableLiveData<String>().apply {
-        value = if (Bluetooth.device == null) {
-            "disconnected"
-        } else {
+        value = if (Bluetooth.connected) {
             "connected"
+        } else {
+            "disconnected"
         }
 
         Bluetooth.stateChangeCB = {
@@ -32,7 +32,7 @@ class SettingsViewModel : ViewModel() {
     }
 
     private val _connectButton = MutableLiveData<Boolean>().apply {
-        value = Bluetooth.device != null
+        value = Bluetooth.connected
     }
 
     val statusText: MutableLiveData<String> = _statusText
