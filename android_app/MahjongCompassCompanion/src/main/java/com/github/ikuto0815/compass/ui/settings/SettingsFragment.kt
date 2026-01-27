@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -43,6 +44,15 @@ class SettingsFragment : Fragment() {
         settingsViewModel.disconnectButton.observe(viewLifecycleOwner, connectButtonObserver)
 
         binding.disconnectButton.setOnClickListener { _ -> Bluetooth.disconnect() }
+
+        val radioHandler = { buttonView: CompoundButton, isChecked: Boolean ->
+            if (isChecked) {
+                Settings.setValue("url", buttonView.text.toString())
+            }
+        }
+        binding.radioBmc.setOnCheckedChangeListener(radioHandler)
+        binding.radioRmjorg.setOnCheckedChangeListener(radioHandler)
+
 
         return root
     }

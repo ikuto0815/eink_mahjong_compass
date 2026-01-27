@@ -49,4 +49,24 @@
         android:text="Disconnect"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textStatus" />
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/disconnectButton">
+
+        <RadioButton
+            android:id="@+id/radio_bmc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="https://riichi.berlin-mahjong.club" />
+
+        <RadioButton
+            android:id="@+id/radio_rmjorg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="https://assist.riichimahjong.org" />
+    </RadioGroup>
 </androidx.constraintlayout.widget.ConstraintLayout>
