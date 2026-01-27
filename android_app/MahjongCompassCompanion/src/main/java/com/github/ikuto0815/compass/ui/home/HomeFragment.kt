@@ -21,6 +21,18 @@ class HomeFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    override fun onResume() {
+        super.onResume()
+
+        val web = binding.web
+        val url = Settings.getValue("url", "https://riichi.berlin-mahjong.club")
+
+        url?.apply {
+            web.defaults(url)
+            web.injectCallback()
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -28,15 +40,6 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
-        val web = binding.web
-        val address = Settings.getValue("address")
-        val url = Settings.getValue("url", "https://riichi.berlin-mahjong.club")
-
-        url?.apply {
-            web.defaults(url)
-            web.injectCallback()
-        }
 
         return root
     }
