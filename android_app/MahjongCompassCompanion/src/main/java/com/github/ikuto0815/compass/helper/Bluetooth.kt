@@ -24,6 +24,8 @@ object Bluetooth {
     var busy = false
     var bluetoothGatt : BluetoothGatt? = null
 
+    var connected = false
+
     var stateChangeCB : ((Int) -> Unit)? = null
     private val bluetoothGattCallback = object : BluetoothGattCallback() {
         @SuppressLint("MissingPermission")
@@ -32,11 +34,13 @@ object Bluetooth {
                 Bluetooth.gatt = gatt
                 gatt?.discoverServices()
                 stateChangeCB?.invoke(newState)
+                connected = true
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 Bluetooth.gatt = null
                 gameStateCharacteristic = null
                 device = null
                 stateChangeCB?.invoke(newState)
+                connected = false
             }
         }
 
@@ -83,6 +87,7 @@ object Bluetooth {
         bluetoothGatt?.disconnect()
         device = null
         bluetoothGatt = null
+        connected = false
     }
 
     @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
