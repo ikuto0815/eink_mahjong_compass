@@ -1,13 +1,10 @@
 package com.github.ikuto0815.compass.ui.home
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.github.ikuto0815.compass.databinding.FragmentHomeBinding
 import com.github.ikuto0815.compass.helper.Settings
 import com.github.ikuto0815.compass.helper.defaults
