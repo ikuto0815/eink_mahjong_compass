@@ -10,14 +10,17 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Compass ID"
+        android:layout_marginTop="8dp"
+        android:labelFor="@id/editCompassAddress"
+        android:text="@string/compass_id"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="8dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/editCompassAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:autofillHints=""
         android:editable="false"
         android:ems="10"
         android:inputType="text"
@@ -29,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Status:"
+        android:text="@string/status"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editCompassAddress" />
 
@@ -37,7 +40,7 @@
         android:id="@+id/textStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="disconnected"
+        android:text="@string/disconnected"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -46,7 +49,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:enabled="false"
-        android:text="Disconnect"
+        android:text="@string/disconnect"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textStatus" />
 
@@ -61,12 +64,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:text="https://riichi.berlin-mahjong.club" />
+            android:text="https://riichi.berlin-mahjong.club"
+            tools:ignore="HardcodedText" />
 
         <RadioButton
             android:id="@+id/radio_rmjorg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="https://assist.riichimahjong.org" />
+            android:text="https://assist.riichimahjong.org"
+            tools:ignore="HardcodedText" />
     </RadioGroup>
 </androidx.constraintlayout.widget.ConstraintLayout>
