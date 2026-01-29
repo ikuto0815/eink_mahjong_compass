@@ -70,7 +70,7 @@ object Bluetooth {
             try {
                 device = adapter.getRemoteDevice(address)
                 bluetoothGatt = device?.connectGatt(null, false, bluetoothGattCallback)
-            } catch (exception: IllegalArgumentException) {
+            } catch (_: IllegalArgumentException) {
                 Log.w("BT", "Device not found with provided address.")
                 return false
             }
