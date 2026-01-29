@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.webkit.CookieManager
 import android.webkit.JavascriptInterface
@@ -31,9 +32,7 @@ fun WebView.defaults(url: String) {
 }
 
 fun WebView.injectCallback() {
-    val handler = Handler()
-
-    handler.postDelayed({
+    Handler(Looper.getMainLooper()).postDelayed({
         loadUrl("""
             javascript:(function f() {
             const targetNode = document.querySelector("#tyr-root");
@@ -98,8 +97,7 @@ object AndroidJSInterface {
             return
         }
 
-        val handler: Handler = Handler()
-        handler.postDelayed({
+        Handler(Looper.getMainLooper()).postDelayed({
             old_state = if (Bluetooth.sendData(state)) {
                 state
             } else {
