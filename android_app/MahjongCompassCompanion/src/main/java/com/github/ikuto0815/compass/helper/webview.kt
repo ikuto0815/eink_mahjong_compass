@@ -41,8 +41,7 @@ fun WebView.injectCallback() {
             
             const callback = (mutationList, observer) => {
             var data = targetNode[Object.keys(targetNode).findLast((s) => s.startsWith("__reactContainer"))]["memoizedState"]["element"]["props"]["state"];
-            delete data["_edges"]; delete data["yakuList"];
-            
+
             data = JSON.stringify(data);
             Android.copyData(data); 
             };
