@@ -111,7 +111,8 @@ object Bluetooth {
             if (gameStateCharacteristic != null) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     gatt?.writeCharacteristic(gameStateCharacteristic!!, state.toByteArray(), WRITE_TYPE_DEFAULT)
-                } else {
+                } else @Suppress("DEPRECATION") {
+                    //support for older android versions, so we hav to use deprecated functions
                     gameStateCharacteristic!!.setValue(state)
                     gatt?.writeCharacteristic(gameStateCharacteristic!!)
                 }
