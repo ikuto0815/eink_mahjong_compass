@@ -117,7 +117,7 @@ object Bluetooth {
                 }
                 while (busy) {
                     Log.w("BT", "wait")
-                    SystemClock.sleep(100);
+                    SystemClock.sleep(100)
                 }
                 return true
             }
