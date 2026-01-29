@@ -56,6 +56,7 @@ object AndroidJSInterface {
     var state = String()
     var old_state = String()
 
+    @Suppress("unused") //called from javascript context
     @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
     @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
     @JavascriptInterface
