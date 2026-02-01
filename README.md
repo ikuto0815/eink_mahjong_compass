@@ -55,7 +55,7 @@ The following things need to be ordered:
 
 ![exploded view](images/exploded_view.png)
 
-* 3D print the parts as described in <3d/README.md>.
+* 3D print the parts as described in [3d/README](3d/README.md).
 * Using a soldering iron push the brass insert nuts into the corners of the case.
 * Place the PCB on the printed `display_feet`
 * Place the display_feet on top
