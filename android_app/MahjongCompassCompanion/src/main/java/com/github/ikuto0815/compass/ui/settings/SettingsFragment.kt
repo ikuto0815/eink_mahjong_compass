@@ -50,6 +50,15 @@ class SettingsFragment : Fragment() {
                 Settings.setValue("url", buttonView.text.toString())
             }
         }
+
+        if (Settings.getValue("url") == "https://assist.riichimahjong.org") {
+            binding.radioRmjorg.isChecked = true
+            binding.radioBmc.isChecked = false
+        } else {
+            binding.radioRmjorg.isChecked = false
+            binding.radioBmc.isChecked = true
+        }
+
         binding.radioBmc.setOnCheckedChangeListener(radioHandler)
         binding.radioRmjorg.setOnCheckedChangeListener(radioHandler)
 
