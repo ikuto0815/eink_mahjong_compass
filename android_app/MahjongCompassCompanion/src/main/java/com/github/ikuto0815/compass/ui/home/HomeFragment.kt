@@ -1,6 +1,7 @@
 package com.github.ikuto0815.compass.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,9 +25,12 @@ class HomeFragment : Fragment() {
         val web = binding.web
         val url = Settings.getValue("url", "https://riichi.berlin-mahjong.club")
 
-        url?.apply {
-            web.defaults(url)
-            web.injectCallback()
+        Log.d("URL", "weburl ${web.url} settings url $url")
+        if (url != null && web.url?.startsWith(url) != true) {
+            url.apply {
+                web.defaults(url)
+                web.injectCallback()
+            }
         }
     }
 
