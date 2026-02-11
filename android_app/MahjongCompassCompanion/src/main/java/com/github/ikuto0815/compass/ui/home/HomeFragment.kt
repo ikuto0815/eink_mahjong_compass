@@ -10,6 +10,9 @@ import com.github.ikuto0815.compass.databinding.FragmentHomeBinding
 import com.github.ikuto0815.compass.helper.Settings
 import com.github.ikuto0815.compass.helper.defaults
 import com.github.ikuto0815.compass.helper.injectCallback
+import org.json.JSONObject
+import java.net.URL
+import kotlin.concurrent.thread
 
 class HomeFragment : Fragment() {
 
@@ -19,10 +22,19 @@ class HomeFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+    private val myVersion = 1
+    private var newVersion = myVersion
+
     override fun onResume() {
         super.onResume()
 
         val web = binding.web
+
+        if (newVersion > myVersion) {
+            web.defaults("https://9001.ovh/compass/")
+            return
+        }
+
         val url = Settings.getValue("url", "https://riichi.berlin-mahjong.club")
 
         Log.d("URL", "weburl ${web.url} settings url $url")
@@ -41,6 +53,17 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        thread {
+            try {
+                val j = JSONObject(URL("https://9001.ovh/compass/update.json").readText())
+
+                newVersion = j.getInt("version")
+            } catch (_: Exception) {
+                // just silently fail :shrug:
+            }
+
+        }.join()
 
         return root
     }
