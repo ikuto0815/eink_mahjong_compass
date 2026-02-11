@@ -69,3 +69,61 @@ The following things need to be ordered:
 To build and flash the firmware, you need to download and install  [PlatformIO](https://platformio.org/).
 
 Then just connect the compass via USB and run `pio run --target upload` in the firmware directory.
+
+## Other stuff
+
+### Bluetooth interface
+
+The compass currently offers a single BLE service under the UID `bae5e4dd-f2b4-4461-a84c-b7851fb8efd3` with the following characteristics:
+
+#### game state (`bab40271-33ea-48dc-a145-638361f54d2b`)
+
+This characteristic is write only and takes a multi line string that describes the current game state in the following format:
+
+``` text
+roundIndex riichiCount honbaCount
+windIndex0
+score0
+name0
+windIndex1
+score1
+name1
+windIndex2
+score2
+name2
+windIndex3
+score3
+name3
+```
+
+roundIndex describes the current round of the game (0=E1, 1=E2, 4=S1,...). riichiCount and honbaCount are the number of sticks that would be on the table.
+
+The next lines describe describe the 4 players in the game.
+windIndexN is the current wind of each player (0=E, 1=S, 2=W, 3=N).
+scoreN and nameN are the current score and name of each player.
+
+The players are drawn on the display in the same order as in the transferred data.
+
+Example:
+
+``` text
+1 2 1
+0
+29000
+name0
+1
+29000
+name1
+2
+38000
+name2
+3
+22000
+name3
+```
+
+This game is in round east-2, There are two riichi sticks and one honba in the table. Player "name0" is currently east with 29000 points.
+
+#### battery voltage (`bab40271-33ea-48dc-a145-638361f54d2c`)
+
+This characteristic is read-only. It returns the current battery voltage in mV. This can be used for a battery level indicator in the app.
