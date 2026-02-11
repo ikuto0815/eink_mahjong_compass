@@ -39,11 +39,16 @@ class SettingsFragment : Fragment() {
 
         val statusObserver = Observer<String> { status -> binding.textStatus.text = status }
         val connectButtonObserver = Observer<Boolean> { status -> binding.disconnectButton.isEnabled = status }
+        val batteryTextObserver = Observer<String> { status -> binding.textViewBatteryVoltage.text = status}
 
         settingsViewModel.statusText.observe(viewLifecycleOwner, statusObserver)
         settingsViewModel.disconnectButton.observe(viewLifecycleOwner, connectButtonObserver)
 
         binding.disconnectButton.setOnClickListener { _ -> Bluetooth.disconnect() }
+
+        binding.batteryVoltageButton.setOnClickListener { _ -> Bluetooth.updateBatteryVoltage() }
+
+        settingsViewModel.batteryText.observe(viewLifecycleOwner, batteryTextObserver)
 
         val radioHandler = { buttonView: CompoundButton, isChecked: Boolean ->
             if (isChecked) {

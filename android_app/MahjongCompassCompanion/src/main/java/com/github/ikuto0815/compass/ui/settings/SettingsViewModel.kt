@@ -27,9 +27,14 @@ class SettingsViewModel : ViewModel() {
                     statusText.postValue("disconnected")
                     disconnectButton.postValue(false)
                 }
+                0x1000 -> {
+                    batteryText.postValue("${Bluetooth.batteryVoltage / 1000.0} V")
+                }
             }
         }
     }
+
+    private val _batteryText = MutableLiveData<String>()
 
     private val _connectButton = MutableLiveData<Boolean>().apply {
         value = Bluetooth.connected
@@ -37,4 +42,6 @@ class SettingsViewModel : ViewModel() {
 
     val statusText: MutableLiveData<String> = _statusText
     val disconnectButton: MutableLiveData<Boolean> = _connectButton
+
+    val batteryText: MutableLiveData<String> = _batteryText
 }

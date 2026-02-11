@@ -54,6 +54,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textStatus" />
 
     <RadioGroup
+        android:id="@+id/radioGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,4 +75,19 @@
             android:text="https://assist.riichimahjong.org"
             tools:ignore="HardcodedText" />
     </RadioGroup>
+
+    <Button
+        android:id="@+id/batteryVoltageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Read battery voltage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+
+    <TextView
+        android:id="@+id/textViewBatteryVoltage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/batteryVoltageButton" />
 </androidx.constraintlayout.widget.ConstraintLayout>

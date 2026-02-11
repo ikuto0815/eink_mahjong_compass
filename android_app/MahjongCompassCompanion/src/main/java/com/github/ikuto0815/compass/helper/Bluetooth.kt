@@ -14,6 +14,8 @@ import android.os.Build
 import android.os.SystemClock
 import android.util.Log
 import androidx.annotation.RequiresPermission
+import java.nio.ByteBuffer
+import java.nio.ByteOrder
 import java.util.UUID
 
 object Bluetooth {
@@ -21,12 +23,15 @@ object Bluetooth {
     var device: BluetoothDevice? = null
     var gatt : BluetoothGatt? = null
     var gameStateCharacteristic : BluetoothGattCharacteristic? = null
+    var batteryCharacteristic : BluetoothGattCharacteristic? = null
     var busy = false
     var bluetoothGatt : BluetoothGatt? = null
 
     var connected = false
 
     var stateChangeCB : ((Int) -> Unit)? = null
+
+    var batteryVoltage : Int = 0
     private val bluetoothGattCallback = object : BluetoothGattCallback() {
         @SuppressLint("MissingPermission")
         override fun onConnectionStateChange(gatt: BluetoothGatt?, status: Int, newState: Int) {
@@ -51,6 +56,13 @@ object Bluetooth {
         ) {
             busy = false
             Log.w("BT", "char read $status")
+
+            if (characteristic == batteryCharacteristic) {
+                batteryVoltage =
+                    ByteBuffer.wrap(characteristic.value).order(ByteOrder.LITTLE_ENDIAN).int
+                Log.w("BT", "update battery voltags $batteryVoltage")
+                stateChangeCB?.invoke(0x1000)
+            }
         }
 
         override fun onCharacteristicWrite(
@@ -124,5 +136,34 @@ object Bluetooth {
             }
         }
         return false
+    }
+
+    @RequiresPermission(Manifest.permission.BLUETOOTH_CONNECT)
+    fun updateBatteryVoltage() {
+        device?.let {
+            if (it.address != Settings.getValue("address")?.uppercase()) {
+                bluetoothGatt?.disconnect()
+            }
+        }
+        if (device == null) {
+            val address = Settings.getValue("address")
+            Log.w("BT", "connecting to address $address")
+            address?.let { connect(it.uppercase()) }
+            if (address == null) return
+        }
+
+
+        Log.w("BT", "gatt $gatt")
+
+        if (gatt != null) {
+            if (batteryCharacteristic == null) {
+                batteryCharacteristic = gatt?.getService(UUID.fromString("bae5e4dd-f2b4-4461-a84c-b7851fb8efd3"))
+                    ?.getCharacteristic(UUID.fromString("bab40271-33ea-48dc-a145-638361f54d2c"))
+            }
+            Log.w("BT", "batteryCharacteristic $batteryCharacteristic")
+            if (batteryCharacteristic != null) {
+                gatt?.readCharacteristic(batteryCharacteristic)
+            }
+        }
     }
 }
