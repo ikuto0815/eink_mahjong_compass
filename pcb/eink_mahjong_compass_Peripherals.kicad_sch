@@ -4028,6 +4028,12 @@
 		(uuid "769dee68-525f-4d5d-8442-400e20117125")
 	)
 	(junction
+		(at 158.75 165.1)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "7aa9243c-1e2d-468e-bc62-4c4478c78766")
+	)
+	(junction
 		(at 125.73 36.83)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4737,6 +4743,16 @@
 	)
 	(wire
 		(pts
+			(xy 158.75 161.29) (xy 158.75 165.1)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "83e4bcb8-5dcc-4eba-a33e-c1e9c11719f6")
+	)
+	(wire
+		(pts
 			(xy 48.26 105.41) (xy 48.26 99.06)
 		)
 		(stroke
@@ -5418,6 +5434,30 @@
 		(uuid "41deccc0-5f94-4ae9-9250-60685b9054b8")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 134.62 143.7906 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+	)
+	(global_label "ESP3{slash}WAKEUP"
+		(shape input)
+		(at 158.75 161.29 90)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "46c06603-9fca-4f2a-9964-6c588d4ae39c")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 158.75 144.5768 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)

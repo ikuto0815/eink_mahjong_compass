@@ -7099,6 +7099,30 @@
 			)
 		)
 	)
+	(global_label "ESP3{slash}WAKEUP"
+		(shape input)
+		(at 74.93 96.52 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "8170d67b-dfa9-4ef4-9dab-6b7233b8f255")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 91.6432 96.52 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+	)
 	(global_label "ESP9{slash}SCL"
 		(shape input)
 		(at 74.93 111.76 0)
