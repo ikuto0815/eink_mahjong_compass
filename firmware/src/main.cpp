@@ -5,6 +5,8 @@
 #include "io.h"
 #include "game_state.h"
 
+#include "esp_pm.h"
+
 void setup()
 {
 	Serial.begin(115200);
@@ -18,6 +20,13 @@ void setup()
 	init_display();
 
 	set_leds(0);
+
+	esp_pm_config_t pm_config = {
+            .max_freq_mhz = 160,
+            .min_freq_mhz = 160,
+            .light_sleep_enable = true,
+	};
+	ESP_ERROR_CHECK(esp_pm_configure(&pm_config));
 }
 
 void loop()
