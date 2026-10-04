@@ -7,6 +7,18 @@
 
 #include "esp_pm.h"
 
+static void configure_light_sleep(bool enable)
+{
+	esp_pm_config_t pm_config = { 0 };
+
+	esp_pm_get_configuration(&pm_config);
+	pm_config.light_sleep_enable = enable;
+
+	Serial.printf("pm config: min %d max %d light sleep %d\n", pm_config.min_freq_mhz, pm_config.max_freq_mhz, pm_config.light_sleep_enable);
+
+	ESP_ERROR_CHECK(esp_pm_configure(&pm_config));
+}
+
 void setup()
 {
 	Serial.begin(115200);
@@ -21,12 +33,7 @@ void setup()
 
 	set_leds(0);
 
-	esp_pm_config_t pm_config = {
-            .max_freq_mhz = 160,
-            .min_freq_mhz = 160,
-            .light_sleep_enable = true,
-	};
-	ESP_ERROR_CHECK(esp_pm_configure(&pm_config));
+	configure_light_sleep(true);
 }
 
 void loop()
@@ -52,6 +59,11 @@ void loop()
 		if (!deviceConnected) {
 			show_standby_screen();
 			deinit_ble();
+
+			// light sleep has to be turned off otherwise
+			// deep sleep immediately returns for some reason
+			configure_light_sleep(false);
+
 			Serial.flush();
 			Serial.end();
 
