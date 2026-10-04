@@ -5,6 +5,7 @@
 #include <GxEPD2_BW.h>
 #include <qrcodegen.h>
 
+#include "io.h"
 #include "display.h"
 #include "game_state.h"
 
@@ -140,7 +141,9 @@ void show_connect_screen(void)
 {
 	static uint8_t qrcode[qrcodegen_BUFFER_LEN_MAX] PROGMEM;
 	static uint8_t tempBuffer[qrcodegen_BUFFER_LEN_MAX];
+	uint32_t voltage = get_battery_voltage();
 	const char *text = ("https://compass.9001.ovh/#" + BLEDevice::getAddress().toString()).c_str();
+	char *voltage_text = (char*)tempBuffer;
 	enum qrcodegen_Ecc errCorLvl = qrcodegen_Ecc_LOW; // Error correction level
 
 	// Make and print the QR Code symbol
@@ -150,7 +153,9 @@ void show_connect_screen(void)
 		clear_screen();
 		display.setRotation(3);
 		print_qr_code(qrcode);
+		sprintf(voltage_text, "Battery voltage: %.3f V", voltage * 0.001);
 		display_print(&MPLUS2_Medium12pt7b, "Scan to connect", CENTER, BOTTOM, 0, 20);
+		display_print(&MPLUS2_Regular9pt7b, voltage_text, CENTER, TOP, 0, 20);
 		display.nextPage();
 		display.hibernate();
 	}
