@@ -36,6 +36,18 @@ void setup()
 	configure_light_sleep(true);
 }
 
+static int disconnectTimeout;
+
+#define REFRESH_DELAY_MS 100
+
+// time to wait after a device disconnected until going back to standby
+// some phones kill the BT connection when the screen is off. Otherwise this
+// wouldn't be needed.
+#define DISCONNECT_TIMEOUT_MS (20 * 60 * 1000)
+
+// how long the connect screen will wait for a connection
+#define CONNECT_SCREEN_TIMEOUT_MS (2 * 60 * 1000)
+
 void loop()
 {
 	static int i = 0;
@@ -45,13 +57,21 @@ void loop()
 		update_ble_characteristics();
 	i = (++i) % 100;
 
-	if (deviceConnected) {
+	if (deviceConnected ||
+	    disconnectTimeout > 0) {
 		update_game_screen();
-		delay(100);
+		delay(REFRESH_DELAY_MS);
+		if (deviceConnected)
+			disconnectTimeout = DISCONNECT_TIMEOUT_MS;
+		else
+			disconnectTimeout -= REFRESH_DELAY_MS;
 	} else {
 		show_connect_screen();
-		for (int j = 0; j < 600; j++) {
-			delay(100);
+		disconnectTimeout = CONNECT_SCREEN_TIMEOUT_MS;
+		while (disconnectTimeout > 0) {
+			delay(REFRESH_DELAY_MS);
+			disconnectTimeout -= REFRESH_DELAY_MS;
+
 			if (deviceConnected)
 				break;
 		}
@@ -68,6 +88,7 @@ void loop()
 			Serial.end();
 
 			enable_touch_wakeup_pin();
+
 			esp_deep_sleep_start();
 		}
 	}
